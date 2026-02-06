@@ -3,9 +3,9 @@ import { useQuery } from '@apollo/client'
 import { Product, Purchase, User } from '@shared/types'
 import Image from 'next/image'
 import { FC } from 'react'
-import { Skeleton } from './ui/skeleton'
+import { Skeleton } from '../ui/skeleton'
 import { SearchX, AlertCircle, RefreshCcw } from 'lucide-react'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 
 interface Props {
   selectedProducts: Product[]
@@ -13,7 +13,7 @@ interface Props {
   onClearFilters: () => void
 }
 
-export const PurchasedProductOverview: FC<Props> = ({
+export const PurchasedProductList: FC<Props> = ({
   selectedProducts,
   selectedUsers,
   onClearFilters,
@@ -25,7 +25,7 @@ export const PurchasedProductOverview: FC<Props> = ({
     refetch,
   } = useQuery(PURCHASES_QUERY, {
     variables: {
-      first: 10,
+      first: 300,
       productIds: selectedProducts.map((p) => p.id),
       userIds: selectedUsers.map((u) => u.id),
     },

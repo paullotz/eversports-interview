@@ -1,23 +1,20 @@
 'use client'
 
-import { Select, SelectContent, SelectGroup, SelectTrigger } from './ui/select'
-import { Input } from './ui/input'
-import { Separator } from './ui/separator'
-import { Button } from './ui/button'
+import { Select, SelectContent, SelectGroup, SelectTrigger } from '../ui/select'
+import { Input } from '../ui/input'
+import { Separator } from '../ui/separator'
+import { Button } from '../ui/button'
 import { useState } from 'react'
-import { Checkbox } from './ui/checkbox'
-import { Label } from './ui/label'
-import { cn } from '../lib/utils'
+import { Checkbox } from '../ui/checkbox'
+import { Label } from '../ui/label'
+import { cn } from '../../lib/utils'
 import { Search } from 'lucide-react'
-
-export interface MultiSelectItem {
-  id: string
-  name: string
-}
+import { MultiSelectItem } from './types'
 
 interface Props<T extends MultiSelectItem> {
   items: T[]
   itemFamily: string
+  selected?: T[]
   onItemsApplied?: (selected: T[]) => void
   onCancelSelection?: () => void
 }
@@ -25,22 +22,20 @@ interface Props<T extends MultiSelectItem> {
 export const MultiSelect = <T extends MultiSelectItem>({
   items,
   itemFamily,
+  selected = [],
   onItemsApplied,
   onCancelSelection,
 }: Props<T>) => {
-  const [selectedItems, setSelectedItems] = useState<T[]>([])
+  const [draftSelected, setDraftSelected] = useState<T[]>([])
   const [open, setOpen] = useState<boolean>(false)
-  const [selectAll, setSelectAll] = useState<boolean>(false)
-  const [searchTerm, setSearchTerm] = useState<string>()
-  const [appliedSelection, setAppliedSelection] = useState<boolean>(false)
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
-  // FIXME: performance issues
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(searchTerm?.toLowerCase() || ''),
   )
 
   const toggleItem = (id: string) => {
-    setSelectedItems((prev) =>
+    setDraftSelected((prev) =>
       prev.some((item) => item.id === id)
         ? prev.filter((item) => item.id !== id)
         : [...prev, items.find((item) => item.id === id)!],
@@ -48,32 +43,37 @@ export const MultiSelect = <T extends MultiSelectItem>({
   }
 
   const selectAllItems = () => {
-    if (selectAll) {
-      setSelectedItems([])
+    const allSelected =
+      items.length > 0 && draftSelected.length === items.length
+    if (allSelected) {
+      setDraftSelected([])
     } else {
-      setSelectedItems(items)
+      setDraftSelected(items)
     }
-    setSelectAll(!selectAll)
   }
 
-  const toggleSelect = () => {
-    setOpen(!open)
+  const isAllSelected =
+    items.length > 0 && draftSelected.length === items.length
+
+  const toggleSelect = (isOpen: boolean) => {
+    setOpen(isOpen)
+    if (isOpen) {
+      setDraftSelected(selected)
+      setSearchTerm('')
+    }
   }
 
   const resetSearch = () => {
-    searchTerm && setSearchTerm('')
+    setSearchTerm('')
   }
 
   const applySelection = () => {
     setOpen(false)
-    setAppliedSelection(true)
-    onItemsApplied?.(selectedItems)
+    onItemsApplied?.(draftSelected)
   }
 
   const cancelSelection = () => {
     setOpen(false)
-    setSelectedItems([])
-    setAppliedSelection(false)
     onCancelSelection?.()
   }
 
@@ -86,11 +86,9 @@ export const MultiSelect = <T extends MultiSelectItem>({
         )}
       >
         <span className={cn(open && 'text-eversports-foreground')}>
-          {!appliedSelection
-            ? `Select ${itemFamily}`
-            : selectedItems.length > 0
-              ? `${selectedItems.length} ${itemFamily} selected`
-              : `Select ${itemFamily}`}
+          {selected.length > 0
+            ? `${selected.length} ${itemFamily} selected`
+            : `Select ${itemFamily}`}
         </span>
       </SelectTrigger>
       <SelectContent>
@@ -112,7 +110,7 @@ export const MultiSelect = <T extends MultiSelectItem>({
           <div className="flex flex-row items-center gap-2 px-3">
             <Checkbox
               id="select-all"
-              checked={selectAll}
+              checked={isAllSelected}
               onCheckedChange={selectAllItems}
             />
             <Label htmlFor="select-all">Select All</Label>
@@ -125,7 +123,7 @@ export const MultiSelect = <T extends MultiSelectItem>({
               <div key={item.id} className="flex flex-row items-center gap-2">
                 <Checkbox
                   id={item.id}
-                  checked={selectedItems.includes(item)}
+                  checked={draftSelected.some((s) => s.id === item.id)}
                   onCheckedChange={() => toggleItem(item.id)}
                 />
                 <Label htmlFor={item.id} className="cursor-pointer w-full">

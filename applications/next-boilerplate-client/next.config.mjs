@@ -2,7 +2,7 @@
 const nextConfig = {
   transpilePackages: ['@shared/types'],
   images: {
-    domains: ['avatars.githubusercontent.com', 'cloudflare-ipfs.com'],
+    domains: ['avatars.githubusercontent.com', 'picsum.photos'],
   },
 }
 

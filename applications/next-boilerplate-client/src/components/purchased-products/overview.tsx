@@ -1,29 +1,28 @@
 'use client'
 
 import { useState } from 'react'
-import { ProductMultiSelect } from './ProductMultiSelect'
-import { Label } from './ui/label'
-import { Separator } from './ui/separator'
-import { UserMultiSelect } from './UserMultiSelect'
+import { ProductMultiSelect, UserMultiSelect } from '../multi-select'
+import { Label } from '../ui/label'
+import { Separator } from '../ui/separator'
 import type { Product, User } from '@shared/types'
-import { PurchasedProductOverview } from './PurchasedProductsOverview'
+import { PurchasedProductList } from './list'
 import { useQuery } from '@apollo/client'
 import { PRODUCTS_QUERY, USERS_QUERY } from '@/lib/queries'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 
-export const PurchasedProducts = () => {
+export const PurchasedProductsOverview = () => {
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([])
   const [selectedUsers, setSelectedUsers] = useState<User[]>([])
 
   const {
     data: { products: { nodes: products } = { nodes: [] } } = {},
     loading: isProductsLoading,
-  } = useQuery(PRODUCTS_QUERY, { variables: { first: 10 } })
+  } = useQuery(PRODUCTS_QUERY, { variables: { first: 300 } })
 
   const {
     data: { users: { nodes: users } = { nodes: [] } } = {},
     loading: isUsersLoading,
-  } = useQuery(USERS_QUERY, { variables: { first: 10 } })
+  } = useQuery(USERS_QUERY, { variables: { first: 100 } })
 
   const clearFilters = () => {
     setSelectedProducts([])
@@ -63,7 +62,7 @@ export const PurchasedProducts = () => {
 
       <Separator className="w-full my-4" />
 
-      <PurchasedProductOverview
+      <PurchasedProductList
         selectedProducts={selectedProducts}
         selectedUsers={selectedUsers}
         onClearFilters={clearFilters}

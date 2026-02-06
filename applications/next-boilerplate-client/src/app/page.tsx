@@ -1,4 +1,4 @@
-import { PurchasedProducts } from '@/components/PurchasedProducts'
+import { PurchasedProductsOverview } from '@/components/purchased-products/overview'
 import { Separator } from '@radix-ui/react-select'
 
 export default async function Home() {
@@ -8,7 +8,7 @@ export default async function Home() {
 
       <Separator className="my-8 w-full" />
 
-      <PurchasedProducts />
+      <PurchasedProductsOverview />
     </div>
   )
 }
