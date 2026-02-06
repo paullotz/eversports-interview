@@ -3,30 +3,19 @@
 import { FC } from 'react'
 import { MultiSelect, MultiSelectItem } from './MultiSelect'
 import type { Product } from '@shared/types'
-import { useQuery } from '@apollo/client'
-import { PRODUCTS_QUERY } from '@/lib/queries'
 
 interface Props {
   onSetSelectedProducts: (products: Product[]) => void
 }
 
-export const ProductMultiSelect: FC<Props> = ({ onSetSelectedProducts }) => {
-  const {
-    error,
-    data: { products: { nodes: products } = { nodes: [] } } = {},
-    loading: isProductsLoading,
-  } = useQuery(PRODUCTS_QUERY, { variables: { first: 10 } })
-
-  if (error) return <p>Error: {error.message}</p>
-
-  if (isProductsLoading) return <p>Loading...</p>
-
-  if (!products) return <p>No products found.</p>
-
+export const ProductMultiSelect: FC<
+  Props & { products: Product[]; selectedProducts: Product[] }
+> = ({ onSetSelectedProducts, products }) => {
   return (
     <MultiSelect<Product & MultiSelectItem>
       items={products}
       itemFamily="Products"
+      onCancelSelection={() => onSetSelectedProducts([])}
       onItemsApplied={(selected) => onSetSelectedProducts(selected)}
     />
   )

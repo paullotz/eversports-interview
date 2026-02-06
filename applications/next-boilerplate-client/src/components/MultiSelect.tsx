@@ -19,12 +19,14 @@ interface Props<T extends MultiSelectItem> {
   items: T[]
   itemFamily: string
   onItemsApplied?: (selected: T[]) => void
+  onCancelSelection?: () => void
 }
 
 export const MultiSelect = <T extends MultiSelectItem>({
   items,
   itemFamily,
   onItemsApplied,
+  onCancelSelection,
 }: Props<T>) => {
   const [selectedItems, setSelectedItems] = useState<T[]>([])
   const [open, setOpen] = useState<boolean>(false)
@@ -72,6 +74,7 @@ export const MultiSelect = <T extends MultiSelectItem>({
     setOpen(false)
     setSelectedItems([])
     setAppliedSelection(false)
+    onCancelSelection?.()
   }
 
   return (

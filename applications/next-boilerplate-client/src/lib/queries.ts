@@ -28,13 +28,21 @@ export const USERS_QUERY = gql`
   }
 `
 
-export const PRODUCTS = gql`
-  query Products($first: Int) {
-    Products(first: $first) {
+export const PURCHASES_QUERY = gql`
+  query Purchases($first: Int, $productIds: [ID], $userIds: [ID]) {
+    purchases(first: $first, productIds: $productIds, userIds: $userIds) {
       nodes {
         id
-        firstName
-        lastName
+        product {
+          id
+          name
+          imageUrl
+        }
+        user {
+          id
+          firstName
+          lastName
+        }
       }
     }
   }
