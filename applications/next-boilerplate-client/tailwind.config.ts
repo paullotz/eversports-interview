@@ -20,7 +20,10 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        eversports: '#21A696',
+        eversports: {
+          DEFAULT: '#21A696', // Your original brand color
+          foreground: '#185954', // Darker shade for text/borders
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
