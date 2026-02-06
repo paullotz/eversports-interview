@@ -17,4 +17,6 @@ export interface Purchase {
   userId: string
   productId: string
   date: string
+  user: User
+  product: Product
 }
