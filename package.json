@@ -2,7 +2,8 @@
   "name": "frontend-interview",
   "version": "1.0.0",
   "workspaces": [
-    "applications/*"
+    "packages/**/*",
+    "applications/**/*"
   ],
   "dependencies": {
     "prettier": "^3.3.3"

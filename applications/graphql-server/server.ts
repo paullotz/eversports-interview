@@ -1,5 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server'
 import { faker } from '@faker-js/faker'
+import { Product, User, Purchase } from '@shared/types'
 
 // Generate random products
 const generateProducts = (num: number) => {
@@ -12,12 +13,6 @@ const generateProducts = (num: number) => {
     })
   }
   return products
-}
-
-interface Product {
-  id: string
-  name: string
-  imageUrl: string
 }
 
 // Generate random users
@@ -35,14 +30,6 @@ const generateUsers = (num: number) => {
   return users
 }
 
-interface User {
-  id: string
-  firstName: string
-  lastName: string
-  profilePictureUrl: string
-  email: string
-}
-
 // Generate random purchases
 const generatePurchases = (num: number, users: User[], products: Product[]) => {
   const purchases = []
@@ -55,13 +42,6 @@ const generatePurchases = (num: number, users: User[], products: Product[]) => {
     })
   }
   return purchases
-}
-
-interface Purchase {
-  id: string
-  userId: string
-  productId: string
-  date: string
 }
 
 // Utility function to add random delay

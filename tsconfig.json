@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shared/types": ["packages/shared-types/src/index.ts"],
+      "@shared/*": ["packages/*/src/index.ts"]
+    },
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "include": ["packages/**/*", "applications/**/*"],
+  "exclude": ["node_modules"]
+}

@@ -1,6 +1,5 @@
 'use client'
 
-import { Product } from '@/lib/types'
 import {
   Select,
   SelectContent,
@@ -16,35 +15,47 @@ import { Label } from './ui/label'
 import { cn } from '@/lib/utils'
 import { Search } from 'lucide-react'
 
-interface Props {
-  items: Product[]
+export interface MultiSelectItem {
+  id: string
+  name: string
 }
 
-export const MultiSelect = ({ items }: Props) => {
-  const [selectedItems, setSelectedItems] = useState<string[]>([])
+interface Props<T extends MultiSelectItem> {
+  items: T[]
+  itemFamily: string
+  onItemsApplied?: (selected: T[]) => void
+}
+
+export const MultiSelect = <T extends MultiSelectItem>({
+  items,
+  itemFamily,
+  onItemsApplied,
+}: Props<T>) => {
+  const [selectedItems, setSelectedItems] = useState<T[]>([])
   const [open, setOpen] = useState<boolean>(false)
   const [selectAll, setSelectAll] = useState<boolean>(false)
   const [searchTerm, setSearchTerm] = useState<string>()
   const [appliedSelection, setAppliedSelection] = useState<boolean>(false)
-
-  const toggleItem = (id: string) => {
-    setSelectedItems((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    )
-  }
 
   // FIXME: performance issues
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(searchTerm?.toLowerCase() || ''),
   )
 
+  const toggleItem = (id: string) => {
+    setSelectedItems((prev) =>
+      prev.some((item) => item.id === id)
+        ? prev.filter((item) => item.id !== id)
+        : [...prev, items.find((item) => item.id === id)!],
+    )
+  }
+
   const selectAllItems = () => {
     if (selectAll) {
       setSelectedItems([])
     } else {
-      setSelectedItems(items.map((item) => item.id))
+      setSelectedItems(items)
     }
-
     setSelectAll(!selectAll)
   }
 
@@ -59,6 +70,7 @@ export const MultiSelect = ({ items }: Props) => {
   const applySelection = () => {
     setOpen(false)
     setAppliedSelection(true)
+    onItemsApplied?.(selectedItems)
   }
 
   const cancelSelection = () => {
@@ -77,10 +89,10 @@ export const MultiSelect = ({ items }: Props) => {
       >
         <span className={cn(open && 'text-eversports-foreground')}>
           {!appliedSelection
-            ? 'Select Product'
+            ? `Select ${itemFamily}`
             : selectedItems.length > 0
-              ? `${selectedItems.length} products selected`
-              : 'Select Product'}
+              ? `${selectedItems.length} ${itemFamily} selected`
+              : `Select ${itemFamily}`}
         </span>
       </SelectTrigger>
       <SelectContent>
@@ -115,7 +127,7 @@ export const MultiSelect = ({ items }: Props) => {
               <div key={item.id} className="flex flex-row items-center gap-2">
                 <Checkbox
                   id={item.id}
-                  checked={selectedItems.includes(item.id)}
+                  checked={selectedItems.includes(item)}
                   onCheckedChange={() => toggleItem(item.id)}
                 />
                 <Label htmlFor={item.id} className="cursor-pointer w-full">

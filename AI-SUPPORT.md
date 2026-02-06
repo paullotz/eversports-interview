@@ -8,5 +8,6 @@
 - adding shades of eversports green in tailwind config
 - remove duplication for map in select component
 - apply styles for eversports styling on select field when open
+- debugging hilfe beim monorepo sertup
 
 * ...
