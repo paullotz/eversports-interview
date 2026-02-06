@@ -1,18 +1,13 @@
 'use client'
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectTrigger,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectTrigger } from './ui/select'
 import { Input } from './ui/input'
 import { Separator } from './ui/separator'
 import { Button } from './ui/button'
 import { useState } from 'react'
 import { Checkbox } from './ui/checkbox'
 import { Label } from './ui/label'
-import { cn } from '@/lib/utils'
+import { cn } from '../lib/utils'
 import { Search } from 'lucide-react'
 
 export interface MultiSelectItem {

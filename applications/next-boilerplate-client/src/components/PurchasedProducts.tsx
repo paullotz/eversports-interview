@@ -1,25 +1,32 @@
-import { MultiSelect } from './MultiSelect'
+'use client'
+
+import { ProductMultiSelect } from './ProductMultiSelect'
+import { Label } from './ui/label'
+import { Separator } from './ui/separator'
+import { UserMultiSelect } from './UserMultiSelect'
 
 export const PurchasedProducts = () => {
   return (
-    <div className="flex flex-col min-h-screen justiy-center items-center gap-4">
-      <ProductMultiSelect
-        products={[
-          { id: '1', name: 'Product 1' },
-          { id: '2', name: 'Product 2' },
-          { id: '3', name: 'Product 3' },
-          { id: '4', name: 'Product 4' },
-          { id: '5', name: 'Product 5' },
-        ]}
-      />
+    <div>
+      <div className="flex flex-row gap-2 ">
+        <div className="flex flex-col gap-2 w-1/2">
+          <Label>Products</Label>
+          <ProductMultiSelect />
+        </div>
 
-      <UserMultiSelect
-        users={[
-          { id: '1', name: 'User 1' },
-          { id: '2', name: 'User 2' },
-          { id: '3', name: 'User 3' },
-        ]}
-      />
+        <div className="flex flex-col gap-2 w-1/2">
+          <Label>Users</Label>
+          <UserMultiSelect
+            users={[
+              { id: '1', name: 'User 1' },
+              { id: '2', name: 'User 2' },
+              { id: '3', name: 'User 3' },
+            ]}
+          />
+        </div>
+      </div>
+
+      <Separator className="w-full my-4" />
     </div>
   )
 }
