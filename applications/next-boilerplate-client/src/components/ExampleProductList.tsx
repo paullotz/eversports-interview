@@ -1,6 +1,6 @@
-import { Product } from "@/lib/types"
-import { FC } from "react"
-import { MultiSelect } from "./MultiSelect"
+import { Product } from '@/lib/types'
+import { FC } from 'react'
+import { MultiSelect } from './MultiSelect'
 
 interface Props {
   products: Product[]
