@@ -16,3 +16,26 @@ export const PRODUCTS_QUERY = gql`
     }
   }
 `
+export const USERS_QUERY = gql`
+  query Users($first: Int) {
+    users(first: $first) {
+      nodes {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`
+
+export const PRODUCTS = gql`
+  query Products($first: Int) {
+    Products(first: $first) {
+      nodes {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`

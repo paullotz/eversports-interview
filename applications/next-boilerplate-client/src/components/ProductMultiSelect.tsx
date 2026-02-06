@@ -6,7 +6,11 @@ import type { Product } from '@shared/types'
 import { useQuery } from '@apollo/client'
 import { PRODUCTS_QUERY } from '@/lib/queries'
 
-export const ProductMultiSelect: FC = () => {
+interface Props {
+  onSetSelectedProducts: (products: Product[]) => void
+}
+
+export const ProductMultiSelect: FC<Props> = ({ onSetSelectedProducts }) => {
   const {
     error,
     data: { products: { nodes: products } = { nodes: [] } } = {},
@@ -23,7 +27,7 @@ export const ProductMultiSelect: FC = () => {
     <MultiSelect<Product & MultiSelectItem>
       items={products}
       itemFamily="Products"
-      onItemsApplied={(selected) => console.log(selected)}
+      onItemsApplied={(selected) => onSetSelectedProducts(selected)}
     />
   )
 }
