@@ -1,28 +1,29 @@
 'use client'
 
+import { useQuery } from '@apollo/client'
+import type { Product, User } from '@frontend-interview/types'
 import { useState } from 'react'
+import { PRODUCTS_QUERY, USERS_QUERY } from '@/lib/queries'
 import { ProductMultiSelect, UserMultiSelect } from '../multi-select'
+import { Button } from '../ui/button'
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
-import type { Product, User } from '@frontend-interview/types'
 import { PurchasedProductList } from './list'
-import { useQuery } from '@apollo/client'
-import { PRODUCTS_QUERY, USERS_QUERY } from '@/lib/queries'
-import { Button } from '../ui/button'
 
 export const PurchasedProductsOverview = () => {
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([])
   const [selectedUsers, setSelectedUsers] = useState<User[]>([])
 
-  const {
-    data: { products: { nodes: products } = { nodes: [] } } = {},
-    loading: isProductsLoading,
-  } = useQuery(PRODUCTS_QUERY, { variables: { first: 300 } })
+  const { data: productsData, loading: isProductsLoading } = useQuery(
+    PRODUCTS_QUERY,
+    { variables: { first: 300 } },
+  )
+  const products = productsData?.products?.nodes ?? []
 
-  const {
-    data: { users: { nodes: users } = { nodes: [] } } = {},
-    loading: isUsersLoading,
-  } = useQuery(USERS_QUERY, { variables: { first: 100 } })
+  const { data: usersData, loading: isUsersLoading } = useQuery(USERS_QUERY, {
+    variables: { first: 100 },
+  })
+  const users = usersData?.users?.nodes ?? []
 
   const clearFilters = () => {
     setSelectedProducts([])

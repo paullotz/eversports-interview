@@ -1,9 +1,9 @@
 'use client'
 
-import { FC } from 'react'
-import { MultiSelect } from '../multi-select'
 import type { Product } from '@frontend-interview/types'
-import { MultiSelectItem } from '../types'
+import type { FC } from 'react'
+import { MultiSelect } from '../multi-select'
+import type { MultiSelectItem } from '../types'
 
 interface Props {
   products: Product[]

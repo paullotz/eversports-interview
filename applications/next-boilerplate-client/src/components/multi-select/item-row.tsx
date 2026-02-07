@@ -1,6 +1,6 @@
 import { Checkbox } from '../ui/checkbox'
 import { Label } from '../ui/label'
-import { MultiSelectItem } from './types'
+import type { MultiSelectItem } from './types'
 
 interface Props<T extends MultiSelectItem> {
   item: T
@@ -20,12 +20,10 @@ export const ItemRow = <T extends MultiSelectItem>({
   }
 
   return (
-    <div
-      className="flex flex-row items-center gap-2"
-      role="option"
-      aria-selected={isSelected}
-    >
+    <div className="flex flex-row items-center gap-2">
       <Checkbox
+        aria-selected={isSelected}
+        role="option"
         id={item.id}
         checked={isSelected}
         onCheckedChange={handleToggle}

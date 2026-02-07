@@ -1,6 +1,6 @@
 import { AlertCircle, RefreshCcw } from 'lucide-react'
+import type { FC } from 'react'
 import { Button } from '../../ui/button'
-import { FC } from 'react'
 
 interface Props {
   refetch: () => void

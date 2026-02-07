@@ -1,5 +1,5 @@
 import { PurchasedProductsOverview } from '@/components/purchased-products/overview'
-import { Separator } from '@radix-ui/react-select'
+import { Separator } from '@/components/ui/separator'
 
 export default async function Home() {
   return (

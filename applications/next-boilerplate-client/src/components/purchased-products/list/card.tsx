@@ -1,7 +1,7 @@
-import { Card, CardFooter } from '@/components/ui/card'
-import { Purchase } from '@frontend-interview/types'
+import type { Purchase } from '@frontend-interview/types'
 import Image from 'next/image'
-import { FC } from 'react'
+import type { FC } from 'react'
+import { Card, CardFooter } from '@/components/ui/card'
 
 interface Props {
   purchase: Purchase

@@ -1,12 +1,12 @@
 'use client'
 
 import { HttpLink } from '@apollo/client'
+import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
 import {
-  ApolloNextAppProvider,
   ApolloClient,
+  ApolloNextAppProvider,
   InMemoryCache,
 } from '@apollo/experimental-nextjs-app-support'
-import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
 
 if (process.env.NODE_ENV !== 'production') {
   loadDevMessages()

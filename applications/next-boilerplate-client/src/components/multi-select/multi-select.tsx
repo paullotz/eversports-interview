@@ -1,16 +1,16 @@
 'use client'
 
-import { Select, SelectContent, SelectGroup, SelectTrigger } from '../ui/select'
-import { Input } from '../ui/input'
-import { Separator } from '../ui/separator'
-import { Button } from '../ui/button'
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { Checkbox } from '../ui/checkbox'
-import { Label } from '../ui/label'
+import { Loader2, Search } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { cn } from '../../lib/utils'
-import { Search, Loader2 } from 'lucide-react'
-import { MultiSelectItem } from './types'
+import { Button } from '../ui/button'
+import { Checkbox } from '../ui/checkbox'
+import { Input } from '../ui/input'
+import { Label } from '../ui/label'
+import { Select, SelectContent, SelectGroup, SelectTrigger } from '../ui/select'
+import { Separator } from '../ui/separator'
 import { ItemRow } from './item-row'
+import type { MultiSelectItem } from './types'
 
 interface Props<T extends MultiSelectItem> {
   items: T[]
@@ -165,9 +165,8 @@ export const MultiSelect = <T extends MultiSelectItem>({
 
           <Separator className="my-3" />
 
-          <div
+          <fieldset
             className="flex flex-col gap-y-5 px-3 overflow-y-auto max-h-60"
-            role="group"
             aria-label="Available items"
           >
             {(searchTerm ? filteredItems : items).map((item) => (
@@ -178,7 +177,7 @@ export const MultiSelect = <T extends MultiSelectItem>({
                 toggleItem={toggleItem}
               />
             ))}
-          </div>
+          </fieldset>
 
           {searchTerm && filteredItems.length === 0 && (
             <div className="flex flex-col gap-2 items-center justify-start">

@@ -1,13 +1,13 @@
 'use client'
 
+import { NetworkStatus, useQuery } from '@apollo/client'
+import type { Product, User } from '@frontend-interview/types'
+import { type FC, useCallback } from 'react'
 import { PURCHASES_QUERY } from '@/lib/queries'
-import { useQuery, NetworkStatus } from '@apollo/client'
-import { Product, User } from '@frontend-interview/types'
-import { FC, useMemo } from 'react'
 import { PurchasedProductListContent } from './content'
-import { PurchasedProductListLoader } from './loader'
-import { PurchasedProductListError } from './error'
 import { PurchasedProductListEmpty } from './empty'
+import { PurchasedProductListError } from './error'
+import { PurchasedProductListLoader } from './loader'
 
 interface Props {
   selectedProducts: Product[]
@@ -20,11 +20,8 @@ export const PurchasedProductList: FC<Props> = ({
   selectedUsers,
   onClearFilters,
 }) => {
-  const productIds = useMemo(
-    () => selectedProducts.map((p) => p.id),
-    [selectedProducts],
-  )
-  const userIds = useMemo(() => selectedUsers.map((u) => u.id), [selectedUsers])
+  const productIds = selectedProducts.map((p) => p.id)
+  const userIds = selectedUsers.map((u) => u.id)
 
   const { data, loading, error, refetch, fetchMore, networkStatus } = useQuery(
     PURCHASES_QUERY,
@@ -47,31 +44,35 @@ export const PurchasedProductList: FC<Props> = ({
   const hasNextPage = data?.purchases?.pageInfo?.hasNextPage ?? false
   const endCursor = data?.purchases?.pageInfo?.endCursor
 
-  const loadMore = async () => {
+  const loadMore = useCallback(async () => {
     if (!hasNextPage || isLoadingMore) {
       return
     }
 
-    await fetchMore({
-      variables: {
-        after: endCursor,
-        first: 12,
-        productIds,
-        userIds,
-      },
-    })
-  }
+    try {
+      await fetchMore({
+        variables: {
+          after: endCursor,
+          first: 12,
+          productIds,
+          userIds,
+        },
+      })
+    } catch (err) {
+      console.error('Error loading more purchases:', err)
+    }
+  }, [fetchMore, hasNextPage, endCursor, productIds, userIds, isLoadingMore])
 
   if (isInitialLoad || isRefetching) {
     return <PurchasedProductListLoader />
   }
 
-  if (purchases.length === 0) {
-    return <PurchasedProductListEmpty onClearFilters={onClearFilters} />
-  }
-
   if (error) {
     return <PurchasedProductListError refetch={refetch} />
+  }
+
+  if (purchases.length === 0) {
+    return <PurchasedProductListEmpty onClearFilters={onClearFilters} />
   }
 
   return (
