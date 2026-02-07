@@ -4,10 +4,10 @@ import { PURCHASES_QUERY } from '@/lib/queries'
 import { useQuery, NetworkStatus } from '@apollo/client'
 import { Product, User } from '@shared/types'
 import { FC, useMemo } from 'react'
-import { Skeleton } from '../ui/skeleton'
+import { Skeleton } from '../../ui/skeleton'
 import { SearchX, AlertCircle, RefreshCcw } from 'lucide-react'
-import { Button } from '../ui/button'
-import { PurchasedProductListContent } from './list-content'
+import { Button } from '../../ui/button'
+import { PurchasedProductListContent } from './content'
 
 interface Props {
   selectedProducts: Product[]

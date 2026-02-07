@@ -56,8 +56,6 @@ export const PURCHASES_QUERY = gql`
       }
       pageInfo {
         hasNextPage
-        hasPreviousPage
-        startCursor
         endCursor
       }
     }
