@@ -13,5 +13,6 @@
   - setup von tsconfigs
   - debugging als
 - Accessibility optimizations
+- Ui not updating while cache is up to date
 
 * ...

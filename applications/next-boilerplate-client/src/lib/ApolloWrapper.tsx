@@ -26,6 +26,20 @@ function makeClient() {
           fields: {
             purchases: {
               keyArgs: ['productIds', 'userIds'],
+              merge(existing, incoming) {
+                if (!existing) {
+                  return incoming
+                }
+
+                if (!incoming) {
+                  return existing
+                }
+
+                return {
+                  ...incoming,
+                  nodes: [...(existing.nodes || []), ...(incoming.nodes || [])],
+                }
+              },
             },
           },
         },
@@ -35,7 +49,6 @@ function makeClient() {
     devtools: {
       enabled: true,
     },
-    connectToDevTools: true,
   })
 }
 

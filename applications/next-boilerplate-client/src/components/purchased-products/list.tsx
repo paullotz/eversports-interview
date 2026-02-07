@@ -1,11 +1,13 @@
+'use client'
+
 import { PURCHASES_QUERY } from '@/lib/queries'
-import { useQuery, NetworkStatus, useApolloClient } from '@apollo/client'
-import { Product, Purchase, User } from '@shared/types'
-import Image from 'next/image'
-import { FC, useMemo, useState, useCallback } from 'react'
+import { useQuery, NetworkStatus } from '@apollo/client'
+import { Product, User } from '@shared/types'
+import { FC, useMemo } from 'react'
 import { Skeleton } from '../ui/skeleton'
-import { SearchX, AlertCircle, RefreshCcw, Loader2 } from 'lucide-react'
+import { SearchX, AlertCircle, RefreshCcw } from 'lucide-react'
 import { Button } from '../ui/button'
+import { PurchasedProductListContent } from './list-content'
 
 interface Props {
   selectedProducts: Product[]
@@ -24,7 +26,6 @@ export const PurchasedProductList: FC<Props> = ({
   )
   const userIds = useMemo(() => selectedUsers.map((u) => u.id), [selectedUsers])
 
-  const client = useApolloClient()
   const { data, loading, error, refetch, fetchMore, networkStatus } = useQuery(
     PURCHASES_QUERY,
     {
@@ -33,6 +34,7 @@ export const PurchasedProductList: FC<Props> = ({
         productIds,
         userIds,
       },
+
       notifyOnNetworkStatusChange: true,
     },
   )
@@ -50,32 +52,14 @@ export const PurchasedProductList: FC<Props> = ({
       return
     }
 
-    const result = await fetchMore({
+    await fetchMore({
       variables: {
         after: endCursor,
+        first: 12,
         productIds,
         userIds,
-        first: 12,
       },
     })
-
-    if (result.data) {
-      client.cache.modify({
-        fields: {
-          purchases(existing, { readField }) {
-            const existingNodes = readField('nodes', existing) as Purchase[]
-            const newNodes = readField(
-              'nodes',
-              result.data.purchases,
-            ) as Purchase[]
-            return {
-              ...result.data.purchases,
-              nodes: [...existingNodes, ...newNodes],
-            }
-          },
-        },
-      })
-    }
   }
 
   if (isInitialLoad || isRefetching) {
@@ -138,44 +122,11 @@ export const PurchasedProductList: FC<Props> = ({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {purchases.map((purchase: Purchase) => (
-          <div key={purchase.id} className="border rounded p-4">
-            <Image
-              className="text-sm text-muted-foreground"
-              src={purchase.product.imageUrl}
-              alt={purchase.product.name}
-              width={50}
-              height={50}
-            />
-            <h2 className="text-lg font-bold">{purchase.product.name}</h2>
-            <p className="text-sm text-muted-foreground">
-              Purchased by: {purchase.user.firstName} {purchase.user.lastName}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {hasNextPage && (
-        <div className="flex justify-center">
-          <Button
-            type="button"
-            onClick={loadMore}
-            variant="outline"
-            disabled={isLoadingMore}
-          >
-            {isLoadingMore ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Loading...
-              </>
-            ) : (
-              'Load More'
-            )}
-          </Button>
-        </div>
-      )}
-    </div>
+    <PurchasedProductListContent
+      purchases={purchases}
+      hasNextPage={hasNextPage}
+      isLoadingMore={isLoadingMore}
+      onLoadMore={loadMore}
+    />
   )
 }
