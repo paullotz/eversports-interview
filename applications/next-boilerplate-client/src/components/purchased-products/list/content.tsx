@@ -1,4 +1,4 @@
-import { Purchase } from '@shared/types'
+import { Purchase } from '@frontend-interview/types'
 import { Loader2 } from 'lucide-react'
 import { FC } from 'react'
 import { Button } from '../../ui/button'

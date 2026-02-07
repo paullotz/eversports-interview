@@ -2,8 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@shared/types": ["packages/shared-types/src/index.ts"],
-      "@shared/*": ["packages/*/src/index.ts"]
+      "@frontend-interview/types": ["packages/shared-types/src/index.ts"]
     },
     "moduleResolution": "node",
     "resolveJsonModule": true

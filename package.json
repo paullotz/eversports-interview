@@ -11,7 +11,8 @@
   "scripts": {
     "prepare": "husky",
     "dev:client": "pnpm --filter @frontend-interview/next-boilerplate-client dev",
-    "dev:server": "pnpm --filter @frontend-interview/graphql-server dev"
+    "dev:server": "pnpm --filter @frontend-interview/graphql-server dev",
+    "build:client": "pnpm --filter @frontend-interview/next-boilerplate-client build"
   },
   "prettier": {
     "trailingComma": "all",

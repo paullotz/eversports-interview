@@ -2,6 +2,7 @@
   "name": "@frontend-interview/graphql-server",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev server.ts"
@@ -10,7 +11,7 @@
     "apollo-server": "^3.13.0",
     "@faker-js/faker": "^8.4.1",
     "graphql": "^16.9.0",
-    "@shared/types": "workspace:*"
+    "@frontend-interview/types": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",

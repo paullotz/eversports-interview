@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server'
 import { faker } from '@faker-js/faker'
-import type { Product, User, Purchase } from '@shared/types'
+import type { Product, User, Purchase } from '@frontend-interview/types'
 
 // Generate random products
 const generateProducts = (num: number) => {

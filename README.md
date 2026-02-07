@@ -2,11 +2,27 @@
 
 ## Decisions
 
-Documented UI / UX / Tech choices in README.md
+UX:
 
-## Learnings
+- Optimistic Loading for Select
+- Skeleton Loader
+- Showing how many choices have been selected in the Multi Select
+- Showing who bought the product
+- showing the image + info of a product in a card for cohesion
 
-Documented UI / UX / Tech choices in README.md
+Technical:
+
+- Created shared package types to have the same types on the frontend and backend
+
+## Some of my learnings while doing this assignment
+
+- GraphQL:
+  - write queries
+  - how to use apollo & similiarities to tanstack query
+    - update cache manually & auto merging with config
+  - cursor based pagination - what is it / how to do it in graphql
+  - AI support is limited when it comes to graphql
+- Setup of a minimal monorepo with pnpm workspaces
 
 ## Rest of README
 

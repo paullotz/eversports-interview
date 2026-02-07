@@ -1,5 +1,5 @@
 import { Card, CardFooter } from '@/components/ui/card'
-import { Purchase } from '@shared/types'
+import { Purchase } from '@frontend-interview/types'
 import Image from 'next/image'
 import { FC } from 'react'
 
@@ -14,6 +14,7 @@ export const PurchasedProductCard: FC<Props> = ({ purchase }) => {
         <Image
           src={purchase.product.imageUrl}
           alt={purchase.product.name}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
           className="object-cover"
         />

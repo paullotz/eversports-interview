@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { transformUser } from '../components/multi-select/variant/utils'
-import { User } from '@shared/types'
+import { User } from '@frontend-interview/types'
 
 test('transformUser combines firstName and lastName into name', () => {
   const user: User = {

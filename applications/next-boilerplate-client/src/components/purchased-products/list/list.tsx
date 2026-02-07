@@ -2,7 +2,7 @@
 
 import { PURCHASES_QUERY } from '@/lib/queries'
 import { useQuery, NetworkStatus } from '@apollo/client'
-import { Product, User } from '@shared/types'
+import { Product, User } from '@frontend-interview/types'
 import { FC, useMemo } from 'react'
 import { PurchasedProductListContent } from './content'
 import { PurchasedProductListLoader } from './loader'

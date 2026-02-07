@@ -23,9 +23,9 @@ importers:
       '@faker-js/faker':
         specifier: ^8.4.1
         version: 8.4.1
-      '@shared/types':
+      '@frontend-interview/types':
         specifier: workspace:*
-        version: link:../../packages/shared/types
+        version: link:../../packages/types
       apollo-server:
         specifier: ^3.13.0
         version: 3.13.0(graphql@16.12.0)
@@ -51,6 +51,9 @@ importers:
       '@apollo/experimental-nextjs-app-support':
         specifier: ^0.11.11
         version: 0.11.11(@apollo/client@3.14.0(@types/react@18.3.28)(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(graphql@16.12.0)(next@14.2.4(@babel/core@7.29.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@frontend-interview/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@radix-ui/react-checkbox':
         specifier: ^1.3.3
         version: 1.3.3(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -66,9 +69,6 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.4
         version: 1.2.4(@types/react@18.3.28)(react@18.3.1)
-      '@shared/types':
-        specifier: workspace:*
-        version: link:../../packages/shared/types
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -134,7 +134,7 @@ importers:
         specifier: ^4.0.18
         version: 4.0.18(@types/node@20.19.32)(jiti@1.21.7)(jsdom@28.0.0)(yaml@2.8.2)
 
-  packages/shared/types:
+  packages/types:
     devDependencies:
       typescript:
         specifier: ^5.0.0
@@ -8442,7 +8442,7 @@ snapshots:
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(eslint@8.57.1))(eslint@8.57.1)
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@7.2.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@7.2.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-react: 7.37.5(eslint@8.57.1)
       eslint-plugin-react-hooks: 5.0.0-canary-7118f5dd7-20230705(eslint@8.57.1)
@@ -8472,7 +8472,7 @@ snapshots:
       tinyglobby: 0.2.15
       unrs-resolver: 1.11.1
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@7.2.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@7.2.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -8487,7 +8487,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@7.2.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@7.2.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9

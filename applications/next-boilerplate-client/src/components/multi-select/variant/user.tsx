@@ -2,7 +2,7 @@
 
 import { FC, useMemo } from 'react'
 import { MultiSelect } from '../multi-select'
-import type { User } from '@shared/types'
+import type { User } from '@frontend-interview/types'
 import { MultiSelectItem } from '../types'
 import { transformUser } from './utils'
 

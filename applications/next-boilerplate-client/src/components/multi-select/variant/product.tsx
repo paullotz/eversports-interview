@@ -2,7 +2,7 @@
 
 import { FC } from 'react'
 import { MultiSelect } from '../multi-select'
-import type { Product } from '@shared/types'
+import type { Product } from '@frontend-interview/types'
 import { MultiSelectItem } from '../types'
 
 interface Props {
