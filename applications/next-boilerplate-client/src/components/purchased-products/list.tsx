@@ -2,7 +2,7 @@ import { PURCHASES_QUERY } from '@/lib/queries'
 import { useQuery } from '@apollo/client'
 import { Product, Purchase, User } from '@shared/types'
 import Image from 'next/image'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { Skeleton } from '../ui/skeleton'
 import { SearchX, AlertCircle, RefreshCcw } from 'lucide-react'
 import { Button } from '../ui/button'
@@ -18,6 +18,12 @@ export const PurchasedProductList: FC<Props> = ({
   selectedUsers,
   onClearFilters,
 }) => {
+  const productIds = useMemo(
+    () => selectedProducts.map((p) => p.id),
+    [selectedProducts],
+  )
+  const userIds = useMemo(() => selectedUsers.map((u) => u.id), [selectedUsers])
+
   const {
     data: { purchases: { nodes: purchases } = { nodes: [] } } = {},
     loading: isPurchasesLoading,
@@ -25,9 +31,9 @@ export const PurchasedProductList: FC<Props> = ({
     refetch,
   } = useQuery(PURCHASES_QUERY, {
     variables: {
-      first: 300,
-      productIds: selectedProducts.map((p) => p.id),
-      userIds: selectedUsers.map((u) => u.id),
+      first: 30,
+      productIds,
+      userIds,
     },
   })
 

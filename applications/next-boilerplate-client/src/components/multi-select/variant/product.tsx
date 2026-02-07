@@ -8,25 +8,23 @@ import { MultiSelectItem } from '../types'
 interface Props {
   products: Product[]
   selectedProducts: Product[]
-  onSetSelectedProducts: (products: Product[]) => void
+  onChange: (products: Product[]) => void
   loading?: boolean
-  loadingVariant?: 'skeleton' | 'inline'
 }
 
 export const ProductMultiSelect: FC<Props> = ({
   products,
   selectedProducts,
-  onSetSelectedProducts,
+  onChange,
   loading = false,
-  loadingVariant = 'inline',
 }) => {
   return (
     <MultiSelect<Product & MultiSelectItem>
       items={products}
       itemFamily="Products"
       selected={selectedProducts}
-      onCancelSelection={() => onSetSelectedProducts([])}
-      onItemsApplied={(selected) => onSetSelectedProducts(selected)}
+      onCancel={() => onChange([])}
+      onChange={(selected) => onChange(selected)}
       loading={loading}
     />
   )

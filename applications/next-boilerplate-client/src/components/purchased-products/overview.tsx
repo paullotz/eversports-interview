@@ -35,7 +35,7 @@ export const PurchasedProductsOverview = () => {
         <div className="flex flex-col gap-2 w-full sm:w-2/5">
           <Label>Products</Label>
           <ProductMultiSelect
-            onSetSelectedProducts={setSelectedProducts}
+            onChange={setSelectedProducts}
             products={products}
             selectedProducts={selectedProducts}
             loading={isProductsLoading}
@@ -45,7 +45,7 @@ export const PurchasedProductsOverview = () => {
         <div className="flex flex-col gap-2 w-full sm:w-2/5">
           <Label>Users</Label>
           <UserMultiSelect
-            onSelectedUsers={setSelectedUsers}
+            onChange={setSelectedUsers}
             users={users}
             selectedUsers={selectedUsers}
             loading={isUsersLoading}

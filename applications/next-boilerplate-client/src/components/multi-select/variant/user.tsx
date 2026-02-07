@@ -1,6 +1,6 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { MultiSelect } from '../multi-select'
 import type { User } from '@shared/types'
 import { MultiSelectItem } from '../types'
@@ -8,28 +8,34 @@ import { MultiSelectItem } from '../types'
 interface Props {
   users: User[]
   selectedUsers: User[]
-  onSelectedUsers: (users: User[]) => void
+  onChange: (users: User[]) => void
   loading?: boolean
 }
 
 export const UserMultiSelect: FC<Props> = ({
   users,
   selectedUsers,
-  onSelectedUsers,
+  onChange,
   loading = false,
 }) => {
-  const transformUser = (user: User) => ({
+  const transformUser = (user: User): User & MultiSelectItem => ({
     ...user,
     name: `${user.firstName} ${user.lastName}`,
   })
 
+  const transformedUsers = useMemo(() => users.map(transformUser), [users])
+  const transformedSelected = useMemo(
+    () => selectedUsers.map(transformUser),
+    [selectedUsers],
+  )
+
   return (
     <MultiSelect<User & MultiSelectItem>
-      items={users.map(transformUser)}
+      items={transformedUsers}
       itemFamily="Users"
-      selected={selectedUsers.map(transformUser)}
-      onCancelSelection={() => onSelectedUsers([])}
-      onItemsApplied={(selected) => onSelectedUsers(selected)}
+      selected={transformedSelected}
+      onCancel={() => onChange([])}
+      onChange={(selected) => onChange(selected)}
       loading={loading}
     />
   )

@@ -12,5 +12,6 @@
   - setup von workspaces
   - setup von tsconfigs
   - debugging als
+- Accessibility optimizations
 
 * ...
