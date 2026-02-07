@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { Checkbox } from '../ui/checkbox'
 import { Label } from '../ui/label'
 import { cn } from '../../lib/utils'
-import { Search } from 'lucide-react'
+import { Search, Loader2 } from 'lucide-react'
 import { MultiSelectItem } from './types'
 
 interface Props<T extends MultiSelectItem> {
@@ -17,6 +17,7 @@ interface Props<T extends MultiSelectItem> {
   selected?: T[]
   onItemsApplied?: (selected: T[]) => void
   onCancelSelection?: () => void
+  loading?: boolean
 }
 
 export const MultiSelect = <T extends MultiSelectItem>({
@@ -25,6 +26,7 @@ export const MultiSelect = <T extends MultiSelectItem>({
   selected = [],
   onItemsApplied,
   onCancelSelection,
+  loading = false,
 }: Props<T>) => {
   const [draftSelected, setDraftSelected] = useState<T[]>([])
   const [open, setOpen] = useState<boolean>(false)
@@ -56,6 +58,7 @@ export const MultiSelect = <T extends MultiSelectItem>({
     items.length > 0 && draftSelected.length === items.length
 
   const toggleSelect = (isOpen: boolean) => {
+    if (loading) return
     setOpen(isOpen)
     if (isOpen) {
       setDraftSelected(selected)
@@ -80,15 +83,23 @@ export const MultiSelect = <T extends MultiSelectItem>({
   return (
     <Select open={open} onOpenChange={toggleSelect}>
       <SelectTrigger
+        disabled={loading}
         className={cn(
           'border-input focus:ring-0 focus:ring-offset-0',
           open && 'border-eversports bg-eversports/10',
         )}
       >
         <span className={cn(open && 'text-eversports-foreground')}>
-          {selected.length > 0
-            ? `${selected.length} ${itemFamily} selected`
-            : `Select ${itemFamily}`}
+          {loading ? (
+            <span className="flex items-center gap-2 text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Loading {itemFamily.toLowerCase()}...
+            </span>
+          ) : selected.length > 0 ? (
+            `${selected.length} ${itemFamily} selected`
+          ) : (
+            `Select ${itemFamily}`
+          )}
         </span>
       </SelectTrigger>
       <SelectContent>

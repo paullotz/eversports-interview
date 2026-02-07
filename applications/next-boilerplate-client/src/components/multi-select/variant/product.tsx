@@ -9,12 +9,16 @@ interface Props {
   products: Product[]
   selectedProducts: Product[]
   onSetSelectedProducts: (products: Product[]) => void
+  loading?: boolean
+  loadingVariant?: 'skeleton' | 'inline'
 }
 
 export const ProductMultiSelect: FC<Props> = ({
   products,
   selectedProducts,
   onSetSelectedProducts,
+  loading = false,
+  loadingVariant = 'inline',
 }) => {
   return (
     <MultiSelect<Product & MultiSelectItem>
@@ -23,6 +27,7 @@ export const ProductMultiSelect: FC<Props> = ({
       selected={selectedProducts}
       onCancelSelection={() => onSetSelectedProducts([])}
       onItemsApplied={(selected) => onSetSelectedProducts(selected)}
+      loading={loading}
     />
   )
 }

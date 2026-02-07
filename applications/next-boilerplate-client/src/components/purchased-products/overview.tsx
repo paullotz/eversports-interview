@@ -29,8 +29,6 @@ export const PurchasedProductsOverview = () => {
     setSelectedUsers([])
   }
 
-  if (isProductsLoading || isUsersLoading) return <p>Loading...</p>
-
   return (
     <div>
       <div className="flex flex-col sm:flex-row gap-2 items-end">
@@ -40,6 +38,7 @@ export const PurchasedProductsOverview = () => {
             onSetSelectedProducts={setSelectedProducts}
             products={products}
             selectedProducts={selectedProducts}
+            loading={isProductsLoading}
           />
         </div>
 
@@ -49,6 +48,7 @@ export const PurchasedProductsOverview = () => {
             onSelectedUsers={setSelectedUsers}
             users={users}
             selectedUsers={selectedUsers}
+            loading={isUsersLoading}
           />
         </div>
         <Button

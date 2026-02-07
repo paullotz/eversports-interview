@@ -9,12 +9,14 @@ interface Props {
   users: User[]
   selectedUsers: User[]
   onSelectedUsers: (users: User[]) => void
+  loading?: boolean
 }
 
 export const UserMultiSelect: FC<Props> = ({
   users,
   selectedUsers,
   onSelectedUsers,
+  loading = false,
 }) => {
   const transformUser = (user: User) => ({
     ...user,
@@ -28,6 +30,7 @@ export const UserMultiSelect: FC<Props> = ({
       selected={selectedUsers.map(transformUser)}
       onCancelSelection={() => onSelectedUsers([])}
       onItemsApplied={(selected) => onSelectedUsers(selected)}
+      loading={loading}
     />
   )
 }

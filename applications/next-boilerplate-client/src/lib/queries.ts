@@ -42,7 +42,14 @@ export const PURCHASES_QUERY = gql`
           id
           firstName
           lastName
+          name @client
         }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
       }
     }
   }

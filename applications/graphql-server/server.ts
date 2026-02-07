@@ -9,7 +9,8 @@ const generateProducts = (num: number) => {
     products.push({
       id: faker.string.uuid(),
       name: faker.commerce.productName(),
-      imageUrl: faker.image.avatar(),
+      // Changed this cause the faker images were broken & boring :)
+      imageUrl: `https://picsum.photos/200/300?random=${i}`,
     })
   }
   return products
