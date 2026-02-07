@@ -7,7 +7,7 @@ interface Props {
   purchase: Purchase
 }
 
-export const ProductCard: FC<Props> = ({ purchase }) => {
+export const PurchasedProductCard: FC<Props> = ({ purchase }) => {
   return (
     <Card className="overflow-hidden">
       <div className="relative h-48 w-full">
