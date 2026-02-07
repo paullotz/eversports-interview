@@ -1,5 +1,7 @@
+import { ErrorFallback } from '@/components/error-fallback'
 import { PurchasedProductsOverview } from '@/components/purchased-products/overview'
 import { Separator } from '@/components/ui/separator'
+import { ErrorBoundary } from 'react-error-boundary'
 
 export default async function Home() {
   return (
@@ -8,7 +10,9 @@ export default async function Home() {
 
       <Separator className="my-8 w-full" />
 
-      <PurchasedProductsOverview />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <PurchasedProductsOverview />
+      </ErrorBoundary>
     </div>
   )
 }

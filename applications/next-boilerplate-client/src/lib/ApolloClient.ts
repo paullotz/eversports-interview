@@ -11,5 +11,8 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
     link: new HttpLink({
       uri: 'http://localhost:4000/',
     }),
+    devtools: {
+      enabled: true,
+    },
   })
 })

@@ -8,6 +8,7 @@ import { PurchasedProductListContent } from './content'
 import { PurchasedProductListEmpty } from './empty'
 import { PurchasedProductListError } from './error'
 import { PurchasedProductListLoader } from './loader'
+import { useErrorBoundary } from 'react-error-boundary'
 
 interface Props {
   selectedProducts: Product[]
@@ -23,6 +24,7 @@ export const PurchasedProductList: FC<Props> = ({
   const productIds = selectedProducts.map((p) => p.id)
   const userIds = selectedUsers.map((u) => u.id)
 
+  const { showBoundary } = useErrorBoundary()
   const { data, loading, error, refetch, fetchMore, networkStatus } = useQuery(
     PURCHASES_QUERY,
     {
@@ -58,10 +60,18 @@ export const PurchasedProductList: FC<Props> = ({
           userIds,
         },
       })
-    } catch (err) {
-      console.error('Error loading more purchases:', err)
+    } catch (_err) {
+      showBoundary('Failed to load more purchases. Please try again.')
     }
-  }, [fetchMore, hasNextPage, endCursor, productIds, userIds, isLoadingMore])
+  }, [
+    fetchMore,
+    showBoundary,
+    hasNextPage,
+    endCursor,
+    productIds,
+    userIds,
+    isLoadingMore,
+  ])
 
   if (isInitialLoad || isRefetching) {
     return <PurchasedProductListLoader />
