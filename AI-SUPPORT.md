@@ -14,5 +14,6 @@
   - debugging als
 - Accessibility optimizations
 - Ui not updating while cache is up to date
+- unit tests for utils & empty component
 
 * ...
