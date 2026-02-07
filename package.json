@@ -1,26 +1,24 @@
 {
-  "name": "frontend-interview",
-  "version": "1.0.0",
-  "dependencies": {
-    "prettier": "^3.3.3"
-  },
-  "devDependencies": {
-    "husky": "^9.1.4",
-    "lint-staged": "^15.2.7"
-  },
-  "scripts": {
-    "prepare": "husky",
-    "dev:client": "pnpm --filter @frontend-interview/next-boilerplate-client dev",
-    "dev:server": "pnpm --filter @frontend-interview/graphql-server dev",
-    "build:client": "pnpm --filter @frontend-interview/next-boilerplate-client build"
-  },
-  "prettier": {
-    "trailingComma": "all",
-    "tabWidth": 2,
-    "semi": false,
-    "singleQuote": true
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
-  }
+	"name": "frontend-interview",
+	"version": "1.0.0",
+	"dependencies": {},
+	"devDependencies": {
+		"husky": "^9.1.4",
+		"lint-staged": "^15.2.7"
+	},
+	"scripts": {
+		"prepare": "husky",
+		"dev:client": "pnpm --filter @frontend-interview/next-boilerplate-client dev",
+		"dev:server": "pnpm --filter @frontend-interview/graphql-server dev",
+		"build:client": "pnpm --filter @frontend-interview/next-boilerplate-client build"
+	},
+	"prettier": {
+		"trailingComma": "all",
+		"tabWidth": 2,
+		"semi": false,
+		"singleQuote": true
+	},
+	"lint-staged": {
+		"*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": "biome check --write --no-errors-on-unmatched"
+	}
 }
