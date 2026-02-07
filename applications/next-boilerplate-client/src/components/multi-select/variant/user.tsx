@@ -4,6 +4,7 @@ import { FC, useMemo } from 'react'
 import { MultiSelect } from '../multi-select'
 import type { User } from '@shared/types'
 import { MultiSelectItem } from '../types'
+import { transformUser } from './utils'
 
 interface Props {
   users: User[]
@@ -18,11 +19,6 @@ export const UserMultiSelect: FC<Props> = ({
   onChange,
   loading = false,
 }) => {
-  const transformUser = (user: User): User & MultiSelectItem => ({
-    ...user,
-    name: `${user.firstName} ${user.lastName}`,
-  })
-
   const transformedUsers = useMemo(() => users.map(transformUser), [users])
   const transformedSelected = useMemo(
     () => selectedUsers.map(transformUser),
