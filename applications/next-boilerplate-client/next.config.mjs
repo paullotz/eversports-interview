@@ -2,7 +2,13 @@
 const nextConfig = {
   transpilePackages: ['@shared/types'],
   images: {
-    domains: ['avatars.githubusercontent.com', 'picsum.photos'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        pathname: '/**',
+      },
+    ],
   },
 }
 

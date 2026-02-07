@@ -6,6 +6,12 @@ import {
   ApolloClient,
   InMemoryCache,
 } from '@apollo/experimental-nextjs-app-support'
+import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
+
+if (process.env.NODE_ENV !== 'production') {
+  loadDevMessages()
+  loadErrorMessages()
+}
 
 function makeClient() {
   const httpLink = new HttpLink({
@@ -16,6 +22,9 @@ function makeClient() {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: httpLink,
+    devtools: {
+      enabled: true,
+    },
   })
 }
 
