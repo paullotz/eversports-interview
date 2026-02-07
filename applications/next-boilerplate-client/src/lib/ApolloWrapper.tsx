@@ -20,11 +20,22 @@ function makeClient() {
   })
 
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            purchases: {
+              keyArgs: ['productIds', 'userIds'],
+            },
+          },
+        },
+      },
+    }),
     link: httpLink,
     devtools: {
       enabled: true,
     },
+    connectToDevTools: true,
   })
 }
 

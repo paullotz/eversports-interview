@@ -29,8 +29,18 @@ export const USERS_QUERY = gql`
 `
 
 export const PURCHASES_QUERY = gql`
-  query Purchases($first: Int, $productIds: [ID], $userIds: [ID]) {
-    purchases(first: $first, productIds: $productIds, userIds: $userIds) {
+  query Purchases(
+    $first: Int
+    $after: String
+    $productIds: [ID]
+    $userIds: [ID]
+  ) {
+    purchases(
+      first: $first
+      after: $after
+      productIds: $productIds
+      userIds: $userIds
+    ) {
       nodes {
         id
         product {

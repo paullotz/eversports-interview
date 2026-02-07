@@ -1,5 +1,15 @@
 # Frontend Interview Challenge
 
+## Decisions
+
+Documented UI / UX / Tech choices in README.md
+
+## Learnings
+
+Documented UI / UX / Tech choices in README.md
+
+## Rest of README
+
 > [!IMPORTANT]
 > You should have received a google doc together with this repository that explains in detail the scope and context of the exercise, together with it's acceptance criteria and any other necessary information for the completion of the challenge.
 

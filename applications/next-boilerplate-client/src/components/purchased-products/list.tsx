@@ -1,10 +1,10 @@
 import { PURCHASES_QUERY } from '@/lib/queries'
-import { useQuery } from '@apollo/client'
+import { useQuery, NetworkStatus, useApolloClient } from '@apollo/client'
 import { Product, Purchase, User } from '@shared/types'
 import Image from 'next/image'
-import { FC, useMemo } from 'react'
+import { FC, useMemo, useState, useCallback } from 'react'
 import { Skeleton } from '../ui/skeleton'
-import { SearchX, AlertCircle, RefreshCcw } from 'lucide-react'
+import { SearchX, AlertCircle, RefreshCcw, Loader2 } from 'lucide-react'
 import { Button } from '../ui/button'
 
 interface Props {
@@ -24,20 +24,61 @@ export const PurchasedProductList: FC<Props> = ({
   )
   const userIds = useMemo(() => selectedUsers.map((u) => u.id), [selectedUsers])
 
-  const {
-    data: { purchases: { nodes: purchases } = { nodes: [] } } = {},
-    loading: isPurchasesLoading,
-    error,
-    refetch,
-  } = useQuery(PURCHASES_QUERY, {
-    variables: {
-      first: 30,
-      productIds,
-      userIds,
+  const client = useApolloClient()
+  const { data, loading, error, refetch, fetchMore, networkStatus } = useQuery(
+    PURCHASES_QUERY,
+    {
+      variables: {
+        first: 12,
+        productIds,
+        userIds,
+      },
+      notifyOnNetworkStatusChange: true,
     },
-  })
+  )
 
-  if (isPurchasesLoading) {
+  const isLoadingMore = networkStatus === NetworkStatus.fetchMore
+  const isInitialLoad = loading && !data
+  const isRefetching = networkStatus === NetworkStatus.refetch
+
+  const purchases = data?.purchases?.nodes ?? []
+  const hasNextPage = data?.purchases?.pageInfo?.hasNextPage ?? false
+  const endCursor = data?.purchases?.pageInfo?.endCursor
+
+  const loadMore = async () => {
+    if (!hasNextPage || isLoadingMore) {
+      return
+    }
+
+    const result = await fetchMore({
+      variables: {
+        after: endCursor,
+        productIds,
+        userIds,
+        first: 12,
+      },
+    })
+
+    if (result.data) {
+      client.cache.modify({
+        fields: {
+          purchases(existing, { readField }) {
+            const existingNodes = readField('nodes', existing) as Purchase[]
+            const newNodes = readField(
+              'nodes',
+              result.data.purchases,
+            ) as Purchase[]
+            return {
+              ...result.data.purchases,
+              nodes: [...existingNodes, ...newNodes],
+            }
+          },
+        },
+      })
+    }
+  }
+
+  if (isInitialLoad || isRefetching) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Array.from({ length: 6 }).map((_, i) => (
@@ -60,6 +101,7 @@ export const PurchasedProductList: FC<Props> = ({
           Try adjusting your filters or clearing them to see more results.
         </p>
         <Button
+          type="button"
           onClick={() => {
             onClearFilters()
           }}
@@ -82,7 +124,12 @@ export const PurchasedProductList: FC<Props> = ({
         <p className="text-sm text-muted-foreground max-w-sm mt-2 mb-4">
           There was a problem fetching the data. Please try again.
         </p>
-        <Button onClick={() => refetch()} variant="outline" size="sm">
+        <Button
+          type="button"
+          onClick={() => refetch()}
+          variant="outline"
+          size="sm"
+        >
           <RefreshCcw className="mr-2 h-4 w-4" />
           Try Again
         </Button>
@@ -91,22 +138,44 @@ export const PurchasedProductList: FC<Props> = ({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {purchases.map((purchase: Purchase) => (
-        <div key={purchase.id} className="border rounded p-4">
-          <Image
-            className="text-sm text-muted-foreground"
-            src={purchase.product.imageUrl}
-            alt={purchase.product.name}
-            width={50}
-            height={50}
-          />
-          <h2 className="text-lg font-bold">{purchase.product.name}</h2>
-          <p className="text-sm text-muted-foreground">
-            Purchased by: {purchase.user.firstName} {purchase.user.lastName}
-          </p>
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {purchases.map((purchase: Purchase) => (
+          <div key={purchase.id} className="border rounded p-4">
+            <Image
+              className="text-sm text-muted-foreground"
+              src={purchase.product.imageUrl}
+              alt={purchase.product.name}
+              width={50}
+              height={50}
+            />
+            <h2 className="text-lg font-bold">{purchase.product.name}</h2>
+            <p className="text-sm text-muted-foreground">
+              Purchased by: {purchase.user.firstName} {purchase.user.lastName}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {hasNextPage && (
+        <div className="flex justify-center">
+          <Button
+            type="button"
+            onClick={loadMore}
+            variant="outline"
+            disabled={isLoadingMore}
+          >
+            {isLoadingMore ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Loading...
+              </>
+            ) : (
+              'Load More'
+            )}
+          </Button>
         </div>
-      ))}
+      )}
     </div>
   )
 }
