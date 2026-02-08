@@ -1,39 +1,58 @@
 "use client";
 
+import { NetworkStatus, useQuery } from "@apollo/client";
 import type { Product } from "@frontend-interview/types";
-import type { FC } from "react";
+import { type FC, useCallback } from "react";
+import { useErrorBoundary } from "react-error-boundary";
+import { PRODUCTS_QUERY } from "@/lib/apollo/queries";
 import { MultiSelect } from "../multi-select";
 
 interface Props {
-	products: Product[];
 	selectedProducts: Product[];
-	loading?: boolean;
-	hasNextPage?: boolean;
-	loadingMore?: boolean;
 	onChange: (products: Product[]) => void;
-	onReachEnd?: () => void;
 }
 
 export const ProductMultiSelect: FC<Props> = ({
-	products,
 	selectedProducts,
-	loading = false,
-	hasNextPage,
-	loadingMore,
 	onChange,
-	onReachEnd,
 }: Props) => {
+	const { showBoundary } = useErrorBoundary();
+
+	const { data, fetchMore, networkStatus } = useQuery(PRODUCTS_QUERY, {
+		variables: { first: 50 },
+		notifyOnNetworkStatusChange: true,
+	});
+
+	const products = data?.products?.nodes ?? [];
+	const pageInfo = data?.products?.pageInfo;
+
+	const isFetchingMore = networkStatus === NetworkStatus.fetchMore;
+	const isInitialLoading = networkStatus === NetworkStatus.loading;
+
+	const loadMore = useCallback(async () => {
+		if (isFetchingMore || !pageInfo?.hasNextPage) return;
+		try {
+			await fetchMore({
+				variables: {
+					after: pageInfo.endCursor,
+				},
+			});
+		} catch (error) {
+			showBoundary(error);
+		}
+	}, [fetchMore, isFetchingMore, pageInfo, showBoundary]);
+
 	return (
 		<MultiSelect<Product>
 			items={products}
 			itemFamily="Products"
 			selected={selectedProducts}
-			loading={loading}
-			hasNextPage={hasNextPage}
-			loadingMore={loadingMore}
+			loading={isInitialLoading}
+			hasNextPage={pageInfo?.hasNextPage}
+			loadingMore={isFetchingMore}
 			onCancel={() => onChange([])}
 			onChange={(selected) => onChange(selected)}
-			onReachEnd={onReachEnd}
+			onReachEnd={loadMore}
 		/>
 	);
 };
