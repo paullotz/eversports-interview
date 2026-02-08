@@ -10,9 +10,12 @@ UX:
 - Showing who bought the product
 - showing the image + info of a product in a card for cohesion
 - Error boundary for purchased product component to show the user proper information if an unexpected error happens
+- Not resetting the Search / Clear filters when user clicks outside of select
 
 Technical:
 
+- Changed package manager from npm to pnpm (less disk space, faster installs)
+- Manage monorepo with pnpm instead of npm
 - Created shared package types to have the same types on the frontend and backend
 - Replace prettier (& eslint) with Biome
     - Faster all in one formatting and linting
@@ -25,10 +28,11 @@ Technical:
 - GraphQL:
   - write queries
   - how to use apollo & similiarities to tanstack query
-    - update cache manually & auto merging with config
+    - update cache manually & auto merging with typepolicies
   - cursor based pagination - what is it / how to do it in graphql
   - AI support is limited when it comes to graphql
 - Setup of a minimal monorepo with pnpm workspaces
+- Interaction Observer
 
 ## Rest of README
 

@@ -3,6 +3,7 @@ import {
 	ApolloClient,
 	InMemoryCache,
 } from "@apollo/experimental-nextjs-app-support";
+import { paginationMerge } from "./utils";
 
 export const makeClient = () => {
 	const httpLink = new HttpLink({
@@ -17,20 +18,15 @@ export const makeClient = () => {
 					fields: {
 						purchases: {
 							keyArgs: ["productIds", "userIds"],
-							merge(existing, incoming) {
-								if (!existing) {
-									return incoming;
-								}
-
-								if (!incoming) {
-									return existing;
-								}
-
-								return {
-									...incoming,
-									nodes: [...(existing.nodes || []), ...(incoming.nodes || [])],
-								};
-							},
+							merge: paginationMerge,
+						},
+						products: {
+							keyArgs: [],
+							merge: paginationMerge,
+						},
+						users: {
+							keyArgs: [],
+							merge: paginationMerge,
 						},
 					},
 				},

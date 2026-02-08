@@ -14,6 +14,8 @@
   - debugging als
 - Accessibility optimizations
 - Ui not updating while cache is up to date
+  - Tried manually writing cache / typePolicies, in the end I just needed to restart the dev server
 - unit tests for utils & empty component
+- Interaction Observer for infinite scroll
 
 * ...

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const PRODUCTS_QUERY = gql`
-  query Products($first: Int) {
-    products(first: $first) {
+  query Products($first: Int, $after: String) {
+    products(first: $first, after: $after) {
       pageInfo {
         hasNextPage
         hasPreviousPage
@@ -17,8 +17,14 @@ export const PRODUCTS_QUERY = gql`
   }
 `;
 export const USERS_QUERY = gql`
-  query Users($first: Int) {
-    users(first: $first) {
+  query Users($first: Int, $after: String) {
+    users(first: $first, after: $after) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
       nodes {
         id
         firstName
