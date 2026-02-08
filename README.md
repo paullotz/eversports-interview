@@ -9,10 +9,16 @@ UX:
 - Showing how many choices have been selected in the Multi Select
 - Showing who bought the product
 - showing the image + info of a product in a card for cohesion
+- Error boundary for purchased product component to show the user proper information if an unexpected error happens
 
 Technical:
 
 - Created shared package types to have the same types on the frontend and backend
+- Replace prettier (& eslint) with Biome
+    - Faster all in one formatting and linting
+- Adding unit and unit component tests with vitest and jsdom
+- Folder structuring
+- Rename ApolloWrapper and ApolloClient to match naming convention
 
 ## Some of my learnings while doing this assignment
 

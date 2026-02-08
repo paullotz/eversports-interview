@@ -1,26 +1,26 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import ApolloWrapper from '../lib/ApolloWrapper'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { ApolloWrapper } from "../lib/apollo/wrapper";
 
-import './globals.css'
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Eversports frontend assignment',
-  description: 'Looking forward to see what you come up with!',
-}
+	title: "Eversports frontend assignment",
+	description: "Looking forward to see what you come up with!",
+};
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ApolloWrapper>{children}</ApolloWrapper>
-      </body>
-    </html>
-  )
+	return (
+		<html lang="en">
+			<body className={inter.className}>
+				<ApolloWrapper>{children}</ApolloWrapper>
+			</body>
+		</html>
+	);
 }

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client";
 
 export const PRODUCTS_QUERY = gql`
   query Products($first: Int) {
@@ -15,7 +15,7 @@ export const PRODUCTS_QUERY = gql`
       }
     }
   }
-`
+`;
 export const USERS_QUERY = gql`
   query Users($first: Int) {
     users(first: $first) {
@@ -26,7 +26,7 @@ export const USERS_QUERY = gql`
       }
     }
   }
-`
+`;
 
 export const PURCHASES_QUERY = gql`
   query Purchases(
@@ -60,4 +60,4 @@ export const PURCHASES_QUERY = gql`
       }
     }
   }
-`
+`;
