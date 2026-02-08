@@ -5,6 +5,7 @@ import type { Product, User } from "@frontend-interview/types";
 import { type FC, useCallback } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { PURCHASES_QUERY } from "@/lib/apollo/queries";
+import { PURCHASES_PAGE_SIZE } from "@/lib/constants";
 import { PurchasedProductListContent } from "./content";
 import { PurchasedProductListEmpty } from "./empty";
 import { PurchasedProductListError } from "./error";
@@ -29,7 +30,7 @@ export const PurchasedProductList: FC<Props> = ({
 		PURCHASES_QUERY,
 		{
 			variables: {
-				first: 12,
+				first: PURCHASES_PAGE_SIZE,
 				productIds,
 				userIds,
 			},
@@ -55,7 +56,7 @@ export const PurchasedProductList: FC<Props> = ({
 			await fetchMore({
 				variables: {
 					after: endCursor,
-					first: 12,
+					first: PURCHASES_PAGE_SIZE,
 					productIds,
 					userIds,
 				},

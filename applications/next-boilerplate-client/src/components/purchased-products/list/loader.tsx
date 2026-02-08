@@ -1,22 +1,21 @@
-import { Card, CardFooter } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Card, CardFooter } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { SKELETON_COUNT } from "@/lib/constants";
 
 export const PurchasedProductListLoader = () => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {Array.from({ length: 6 })
-        .map(() => Math.random().toString(36))
-        .map((id) => (
-          <Card key={id} className="overflow-hidden">
-            <div className="relative h-48 w-full">
-              <Skeleton className="h-full w-full" />
-            </div>
-            <CardFooter className="flex flex-col items-start gap-1 p-4">
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
-            </CardFooter>
-          </Card>
-        ))}
-    </div>
-  )
-}
+	return (
+		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			{Array.from({ length: SKELETON_COUNT }, (_, i) => i).map((id) => (
+				<Card key={id} className="overflow-hidden">
+					<div className="relative h-48 w-full">
+						<Skeleton className="h-full w-full" />
+					</div>
+					<CardFooter className="flex flex-col items-start gap-1 p-4">
+						<Skeleton className="h-6 w-3/4" />
+						<Skeleton className="h-4 w-1/2" />
+					</CardFooter>
+				</Card>
+			))}
+		</div>
+	);
+};

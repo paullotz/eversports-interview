@@ -1,5 +1,6 @@
 import { Loader2 } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { INTERSECTION_THRESHOLD } from "../../lib/constants";
 
 export const Sentinel = ({
 	onReachEnd,
@@ -20,7 +21,7 @@ export const Sentinel = ({
 					onReachEnd?.();
 				}
 			},
-			{ threshold: 0.5 },
+			{ threshold: INTERSECTION_THRESHOLD },
 		);
 
 		observer.observe(node);

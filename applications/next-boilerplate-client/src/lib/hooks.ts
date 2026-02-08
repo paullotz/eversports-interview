@@ -1,7 +1,6 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-// biome-ignore lint/suspicious/noExplicitAny: Generic callback needs any
-export function useDebounceCallback<T extends (...args: any[]) => any>(
+export function useDebounceCallback<T extends (...args: unknown[]) => unknown>(
 	callback: T,
 	delay: number,
 ): [(...args: Parameters<T>) => void, () => void] {
@@ -13,6 +12,12 @@ export function useDebounceCallback<T extends (...args: any[]) => any>(
 			timeoutRef.current = null;
 		}
 	}, []);
+
+	useEffect(() => {
+		return () => {
+			cancel();
+		};
+	}, [cancel]);
 
 	const debouncedCallback = useCallback(
 		(...args: Parameters<T>) => {
