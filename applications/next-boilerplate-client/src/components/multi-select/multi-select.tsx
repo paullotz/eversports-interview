@@ -1,7 +1,14 @@
 "use client";
 
 import { Loader2, Search } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+	type ChangeEvent,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
+import { useDebounceCallback } from "../../lib/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -23,8 +30,10 @@ interface Props<T extends MultiSelectItem> {
 	itemFamily: string;
 	selected?: T[];
 	loading?: boolean;
+	isSearching?: boolean;
 	hasNextPage?: boolean;
 	loadingMore?: boolean;
+	onSearch?: (term: string) => void;
 	onChange?: (selected: T[]) => void;
 	onCancel?: () => void;
 	onReachEnd?: () => void;
@@ -35,8 +44,10 @@ export const MultiSelect = <T extends MultiSelectItem>({
 	itemFamily,
 	selected = [],
 	loading = false,
+	isSearching = false,
 	hasNextPage,
 	loadingMore,
+	onSearch,
 	onChange,
 	onCancel,
 	onReachEnd,
@@ -52,14 +63,32 @@ export const MultiSelect = <T extends MultiSelectItem>({
 	}, [selected, open]);
 
 	const filteredItems = useMemo(() => {
-		if (!searchTerm) {
+		if (onSearch) {
 			return items;
 		}
 
+		if (!searchTerm) {
+			return items;
+		}
 		return items.filter((item) =>
 			item.name.toLowerCase().includes(searchTerm.toLowerCase()),
 		);
-	}, [items, searchTerm]);
+	}, [items, searchTerm, onSearch]);
+
+	const [debouncedSearch, cancelSearch] = useDebounceCallback(
+		(term: string) => {
+			onSearch?.(term);
+		},
+		300,
+	);
+
+	const changeSearchTerm = (e: ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(e.target.value);
+
+		if (onSearch) {
+			debouncedSearch(e.target.value);
+		}
+	};
 
 	const toggleItem = useCallback(
 		(id: string) => {
@@ -104,12 +133,16 @@ export const MultiSelect = <T extends MultiSelectItem>({
 
 		if (isOpen) {
 			setDraftSelected(selected);
+			cancelSearch();
 			setSearchTerm("");
+			onSearch?.("");
 		}
 	};
 
 	const resetSearch = () => {
+		cancelSearch();
 		setSearchTerm("");
+		onSearch?.("");
 	};
 
 	const applySelection = () => {
@@ -119,6 +152,9 @@ export const MultiSelect = <T extends MultiSelectItem>({
 
 	const cancelSelection = () => {
 		setOpen(false);
+		cancelSearch();
+		setSearchTerm("");
+		onSearch?.("");
 		onCancel?.();
 	};
 
@@ -157,7 +193,7 @@ export const MultiSelect = <T extends MultiSelectItem>({
 						className="w-full border-none shadow-none focus-visible:ring-0 text-sm"
 						placeholder="Search"
 						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
+						onChange={changeSearchTerm}
 						aria-label={`Search ${itemFamily.toLowerCase()}`}
 					/>
 				</div>
@@ -181,20 +217,28 @@ export const MultiSelect = <T extends MultiSelectItem>({
 						className="flex flex-col gap-y-5 px-3 overflow-y-auto max-h-60"
 						aria-label="Available items"
 					>
-						{(searchTerm ? filteredItems : items).map((item) => (
-							<ItemRow
-								key={item.id}
-								item={item}
-								draftSelected={draftSelected}
-								toggleItem={toggleItem}
-							/>
-						))}
-						{hasNextPage && (
-							<Sentinel onReachEnd={onReachEnd} loadingMore={loadingMore} />
+						{isSearching ? (
+							<div className="flex items-center justify-center py-4">
+								<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+							</div>
+						) : (
+							<>
+								{(searchTerm ? filteredItems : items).map((item) => (
+									<ItemRow
+										key={item.id}
+										item={item}
+										draftSelected={draftSelected}
+										toggleItem={toggleItem}
+									/>
+								))}
+								{hasNextPage && (
+									<Sentinel onReachEnd={onReachEnd} loadingMore={loadingMore} />
+								)}
+							</>
 						)}
 					</fieldset>
 
-					{searchTerm && filteredItems.length === 0 && (
+					{searchTerm && !isSearching && filteredItems.length === 0 && (
 						<div className="flex flex-col gap-2 items-center justify-start">
 							<div className="px-3 text-sm text-muted-foreground">
 								No {itemFamily.toLowerCase()} found.

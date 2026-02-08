@@ -2,7 +2,7 @@
 
 import { NetworkStatus, useQuery } from "@apollo/client";
 import type { Product } from "@frontend-interview/types";
-import { type FC, useCallback } from "react";
+import { type FC, useCallback, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { PRODUCTS_QUERY } from "@/lib/apollo/queries";
 import { MultiSelect } from "../multi-select";
@@ -17,9 +17,10 @@ export const ProductMultiSelect: FC<Props> = ({
 	onChange,
 }: Props) => {
 	const { showBoundary } = useErrorBoundary();
+	const [searchTerm, setSearchTerm] = useState("");
 
-	const { data, fetchMore, networkStatus } = useQuery(PRODUCTS_QUERY, {
-		variables: { first: 50 },
+	const { data, loading, fetchMore, networkStatus } = useQuery(PRODUCTS_QUERY, {
+		variables: { first: 50, searchTerm },
 		notifyOnNetworkStatusChange: true,
 	});
 
@@ -27,7 +28,9 @@ export const ProductMultiSelect: FC<Props> = ({
 	const pageInfo = data?.products?.pageInfo;
 
 	const isFetchingMore = networkStatus === NetworkStatus.fetchMore;
-	const isInitialLoading = networkStatus === NetworkStatus.loading;
+	const isInitialLoading =
+		networkStatus === NetworkStatus.loading && products.length === 0;
+	const isSearching = loading && searchTerm !== "" && !isFetchingMore;
 
 	const loadMore = useCallback(async () => {
 		if (isFetchingMore || !pageInfo?.hasNextPage) return;
@@ -35,12 +38,13 @@ export const ProductMultiSelect: FC<Props> = ({
 			await fetchMore({
 				variables: {
 					after: pageInfo.endCursor,
+					searchTerm,
 				},
 			});
 		} catch (error) {
 			showBoundary(error);
 		}
-	}, [fetchMore, isFetchingMore, pageInfo, showBoundary]);
+	}, [fetchMore, isFetchingMore, pageInfo, showBoundary, searchTerm]);
 
 	return (
 		<MultiSelect<Product>
@@ -48,10 +52,12 @@ export const ProductMultiSelect: FC<Props> = ({
 			itemFamily="Products"
 			selected={selectedProducts}
 			loading={isInitialLoading}
+			isSearching={isSearching}
 			hasNextPage={pageInfo?.hasNextPage}
 			loadingMore={isFetchingMore}
 			onCancel={() => onChange([])}
 			onChange={(selected) => onChange(selected)}
+			onSearch={setSearchTerm}
 			onReachEnd={loadMore}
 		/>
 	);

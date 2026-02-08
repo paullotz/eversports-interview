@@ -21,11 +21,11 @@ export const makeClient = () => {
 							merge: paginationMerge,
 						},
 						products: {
-							keyArgs: [],
+							keyArgs: ["searchTerm"],
 							merge: paginationMerge,
 						},
 						users: {
-							keyArgs: [],
+							keyArgs: ["searchTerm"],
 							merge: paginationMerge,
 						},
 					},

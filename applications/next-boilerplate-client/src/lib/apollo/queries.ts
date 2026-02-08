@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const PRODUCTS_QUERY = gql`
-  query Products($first: Int, $after: String) {
-    products(first: $first, after: $after) {
+  query Products($first: Int, $after: String, $searchTerm: String) {
+    products(first: $first, after: $after, searchTerm: $searchTerm) {
       pageInfo {
         hasNextPage
         hasPreviousPage
@@ -17,8 +17,8 @@ export const PRODUCTS_QUERY = gql`
   }
 `;
 export const USERS_QUERY = gql`
-  query Users($first: Int, $after: String) {
-    users(first: $first, after: $after) {
+  query Users($first: Int, $after: String, $searchTerm: String) {
+    users(first: $first, after: $after, searchTerm: $searchTerm) {
       pageInfo {
         hasNextPage
         hasPreviousPage

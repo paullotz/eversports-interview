@@ -4,13 +4,11 @@
 
 UX:
 
-- Optimistic Loading for Select
+- Optimistic UI for Select
 - Skeleton Loader
-- Showing how many choices have been selected in the Multi Select
 - Showing who bought the product
-- showing the image + info of a product in a card for cohesion
+- showing the image + info of a product in a card for better overview of displayed items
 - Error boundary for purchased product component to show the user proper information if an unexpected error happens
-- Not resetting the Search / Clear filters when user clicks outside of select
 
 Technical:
 
