@@ -1,1 +1,1 @@
-export { PurchasedProductsOverview } from './overview'
+export { PurchasedProductsOverview } from "./overview";

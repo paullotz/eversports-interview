@@ -2,35 +2,49 @@
 
 ## Decisions
 
-UX:
+### UI/UX
 
-- Optimistic UI for Select
-- Skeleton Loader
-- Showing who bought the product
-- showing the image + info of a product in a card for better overview of displayed items
+- Using shadcn/ui for the UI components
+- Showing Select optimistically
+- Skeleton Loader for products
+- Added aria-labels for better accessibility
+- Wrapping the product in a card to show image and info of a product for better overview of displayed items
+- Infinite scroll for products
+- Infinite scroll for users
+- Load More button for purchased products to reduce scrolling habit 😀
 - Error boundary for purchased product component to show the user proper information if an unexpected error happens
+- (Choosing a different image provider than faker cause they were broken)
 
-Technical:
+Layout checked in Mobile, Tablet and Desktop.
+
+### Technical
 
 - Changed package manager from npm to pnpm (less disk space, faster installs)
-- Manage monorepo with pnpm instead of npm
+  - Manage monorepo with pnpm instead of npm
 - Created shared package types to have the same types on the frontend and backend
 - Replace prettier (& eslint) with Biome
-    - Faster all in one formatting and linting
+  - Faster all in one formatting and linting
+  - Replace Prettier in husky pre-commit check
 - Adding unit and unit component tests with vitest and jsdom
 - Folder structuring
 - Rename ApolloWrapper and ApolloClient to match naming convention
+- Have useDebouncCallback done by AI instead of using another package to reduce the risk of Supply Chain Attacks
 
 ## Some of my learnings while doing this assignment
 
-- GraphQL:
-  - write queries
-  - how to use apollo & similiarities to tanstack query
-    - update cache manually & auto merging with typepolicies
-  - cursor based pagination - what is it / how to do it in graphql
-  - AI support is limited when it comes to graphql
 - Setup of a minimal monorepo with pnpm workspaces
+- GraphQL:
+  - How to use apollo & similiarities to tanstack query
+    - Update cache manually & auto merging with typepolicies
+  - Cursor based pagination - what is it / how to do it in graphql
+  - AI support is limited when it comes to graphql
 - Interaction Observer
+- Deepening knowledge of Generics and their usage in reusable components
+
+## Potential Improvements
+
+- Add more tests!! 
+- Keeping state of the filters in the URL to allow sharing links with filters
 
 ## Rest of README
 

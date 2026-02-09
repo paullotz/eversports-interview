@@ -1,7 +1,7 @@
-import type { User } from '@frontend-interview/types'
-import type { MultiSelectItem } from '../types'
+import type { User } from "@frontend-interview/types";
+import type { MultiSelectItem } from "../types";
 
 export const transformUser = (user: User): User & MultiSelectItem => ({
-  ...user,
-  name: `${user.firstName} ${user.lastName}`,
-})
+	...user,
+	name: `${user.firstName} ${user.lastName}`,
+});

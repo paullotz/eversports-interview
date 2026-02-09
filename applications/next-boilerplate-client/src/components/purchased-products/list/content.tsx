@@ -1,49 +1,49 @@
-import type { Purchase } from '@frontend-interview/types'
-import { Loader2 } from 'lucide-react'
-import type { FC } from 'react'
-import { Button } from '../../ui/button'
-import { PurchasedProductCard } from './card'
+import type { Purchase } from "@frontend-interview/types";
+import { Loader2 } from "lucide-react";
+import type { FC } from "react";
+import { Button } from "../../ui/button";
+import { PurchasedProductCard } from "./card";
 
 interface Props {
-  purchases: Purchase[]
-  hasNextPage: boolean
-  isLoadingMore: boolean
-  onLoadMore: () => void
+	purchases: Purchase[];
+	hasNextPage: boolean;
+	isLoadingMore: boolean;
+	onLoadMore: () => void;
 }
 
 export const PurchasedProductListContent: FC<Props> = ({
-  purchases,
-  hasNextPage,
-  isLoadingMore,
-  onLoadMore,
+	purchases,
+	hasNextPage,
+	isLoadingMore,
+	onLoadMore,
 }) => {
-  return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {purchases.map((purchase: Purchase) => (
-          <PurchasedProductCard key={purchase.id} purchase={purchase} />
-        ))}
-      </div>
+	return (
+		<div className="space-y-6">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+				{purchases.map((purchase: Purchase) => (
+					<PurchasedProductCard key={purchase.id} purchase={purchase} />
+				))}
+			</div>
 
-      {hasNextPage && (
-        <div className="flex justify-center">
-          <Button
-            type="button"
-            onClick={onLoadMore}
-            variant="outline"
-            disabled={isLoadingMore}
-          >
-            {isLoadingMore ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Loading...
-              </>
-            ) : (
-              'Load More'
-            )}
-          </Button>
-        </div>
-      )}
-    </div>
-  )
-}
+			{hasNextPage && (
+				<div className="flex justify-center">
+					<Button
+						type="button"
+						onClick={onLoadMore}
+						variant="outline"
+						disabled={isLoadingMore}
+					>
+						{isLoadingMore ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+								Loading...
+							</>
+						) : (
+							"Load More"
+						)}
+					</Button>
+				</div>
+			)}
+		</div>
+	);
+};

@@ -1,1 +1,1 @@
-export { PurchasedProductList } from './list'
+export { PurchasedProductList } from "./list";
