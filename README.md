@@ -29,6 +29,9 @@ Layout checked in Mobile, Tablet and Desktop.
 - Folder structuring
 - Rename ApolloWrapper and ApolloClient to match naming convention
 - Have useDebouncCallback done by AI instead of using another package to reduce the risk of Supply Chain Attacks
+- Next.js & Apollo Version
+    - I initially wanted to upgrade these to the latest versions but I assumed you pinned them to match your prod environment (though I really hope not)
+    - still updated Next.js, though, version 14.4.0 is vulnerable to React2Shell so I ran `npx fix-react2shell-next` to change it to a secure 14.x release
 
 ## Some of my learnings while doing this assignment
 
