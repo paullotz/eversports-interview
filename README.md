@@ -44,7 +44,7 @@ Layout checked in Mobile, Tablet and Desktop.
 - Interaction Observer
 - Deepening knowledge of Generics and their usage in reusable components
 
-## Potential Improvements
+## (Potential) Improvements
 
 - Add more tests!! 
 - Keeping state of the filters in the URL to allow sharing links with filters
