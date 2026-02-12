@@ -27,7 +27,7 @@ Layout checked in Mobile, Tablet and Desktop.
   - Replace Prettier in husky pre-commit check
 - Adding unit and unit component tests with vitest and jsdom
 - Folder structuring
-- Rename ApolloWrapper and ApolloClient to match naming convention
+- Kebab Casing -> Rename ApolloWrapper and ApolloClient to match naming convention
 - Have useDebouncCallback done by AI instead of using another package to reduce the risk of Supply Chain Attacks
 - Next.js & Apollo Version
     - I initially wanted to upgrade these to the latest versions but I assumed you pinned them to match your prod environment (though I really hope not)

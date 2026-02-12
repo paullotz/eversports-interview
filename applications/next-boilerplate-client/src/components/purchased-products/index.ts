@@ -1,1 +1,0 @@
-export { PurchasedProductsOverview } from "./overview";

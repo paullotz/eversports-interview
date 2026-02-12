@@ -21,7 +21,7 @@
 - Alternative for faker images
 - useDebounceCallback implementation
 - Final Code Review
-  - Made me aware of magic strings/numbers...
+  - Found magic strings/numbers...
   - '' -> ""
   - Potential Race Condition in useDebounceCallback -> useEffect cleanup
 
